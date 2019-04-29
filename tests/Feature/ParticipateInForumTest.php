@@ -13,11 +13,11 @@ class ParticipateInForumTest extends TestCase
 
     public function test_an_authenticated_user_can_participate_in_forum_thread()
     {
-        $this->be($user = factory('App\User')->create());
+        $this->be($user = create('App\User'));
 
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
 
-        $reply = factory('App\Reply')->create();
+        $reply = create('App\Reply');
 
         $this->post('/threads/' . $thread->id . '/replies', $reply->toArray());
 
