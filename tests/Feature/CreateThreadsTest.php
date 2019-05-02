@@ -13,7 +13,7 @@ class CreateThreadsTest extends TestCase
     public function test_a_logged_in_user_can_create_new_threads()
     {
         // A signed in user
-        $this->signIn();
+        $this->withoutExceptionHandling()->signIn();
 
         // When visiting to create a new thread
         $thread = create('App\Thread');
