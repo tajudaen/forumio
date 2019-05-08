@@ -16,13 +16,15 @@ class CreateThreadsTest extends TestCase
         $this->withoutExceptionHandling()->signIn();
 
         // When visiting to create a new thread
-        $thread = create('App\Thread');
+        $thread = make('App\Thread');
 
         // Submit the thread
-        $this->post('/threads', $thread->toArray());
+        $response = $this->post('/threads', $thread->toArray());
 
         // Visit thread page
-        $this->get($thread->path())->assertSee($thread->title);
+        $this->get($response->headers->get('Location'))
+            ->assertSee($thread->body)
+            ->assertSee($thread->title);
     }
 
     public function test_guest_can_not_create_threads()
