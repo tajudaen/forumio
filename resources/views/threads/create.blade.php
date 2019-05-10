@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Create A New Thread</div>
+            <div class="card card-default">
+                <div class="card-header">Create A New Thread</div>
 
-                <div class="panel-body">
+                <div class="card-body">
                     <form method="POST" action="/threads">
                         {{ csrf_field() }}
 
