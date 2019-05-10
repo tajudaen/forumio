@@ -19,6 +19,7 @@
             @include('threads.reply')
             @endforeach
 
+            {{ $replies->links() }}
 
             @if(auth()->check())
             <form method="POST" action="{{$thread->path() . '/replies'}}">
@@ -36,6 +37,7 @@
             <div class="card">
                 <div class="card-body">
                     This thread was created {{ $thread->created_at->diffForHumans() }}
+                    <a href="#">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ str_plural('reply', $thread->replies_count)}}
                 </div>
             </div>
         </div>

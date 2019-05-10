@@ -35,7 +35,15 @@ class Thread extends Model
 
     public function scopeFilter($query, $filters)
     {
-        // dd($filters);
         return $filters->apply($query);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function ($builder) {
+            $builder->withCount('replies');
+        });
     }
 }
