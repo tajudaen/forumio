@@ -24,6 +24,10 @@ class ThreadsController extends Controller
     {
         $threads = Thread::filter($filters)->get();
 
+        if (request()->wantsJson()) {
+            return $threads;
+        }
+
         return view('threads.index', compact('threads'));
     }
 
