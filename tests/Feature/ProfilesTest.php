@@ -18,4 +18,15 @@ class ProfilesTest extends TestCase
         $this->withoutExceptionHandling()->get('/profiles/' . $user->name)
                 ->assertSee($user->name);
     }
+
+    public function test_profile_display_all_threads_by_the_user()
+    {
+        $user = create('App\User');
+
+        $thread = create('App\Thread', ['user_id' => $user->id]);
+
+        $this->withoutExceptionHandling()->get('/profiles/' . $user->name)
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);
+    }
 }
