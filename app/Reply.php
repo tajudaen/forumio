@@ -3,31 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Favoriteable;
 
 class Reply extends Model
 {
+    use Favoriteable;
+
     protected $fillable = ['body', 'thread_id', 'user_id'];
+    protected $with = ['owner', 'favorites'];
 
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favorite');
-    }
-
-    public function favorite()
-    {
-        $attributes = ['user_id' => auth()->id()];
-        if (!$this->favorites()->where($attributes)->exists()) {
-            return $this->favorites()->create($attributes);
-        }
-    }
-
-    public function isFavorited()
-    {
-        return $this->favorites()->where('user_id', auth()->id())->exists();
-    }
 }
