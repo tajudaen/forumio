@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordsActivity;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
     protected $with = ['creator', 'channel'];
 
@@ -48,7 +51,9 @@ class Thread extends Model
         });
 
         static::deleting(function ($thread) {
-            $thread->replies()->delete();
+            $thread->replies->each->delete();
         });
+
     }
+
 }

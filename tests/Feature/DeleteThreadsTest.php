@@ -24,6 +24,10 @@ class DeleteThreadsTest extends TestCase
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertDatabaseMissing('activities', [
+            'subject_id' => $thread->id,
+            'subject_type' => get_class($thread)
+        ]);
     }
 
     public function test_unauthorized_users_cannot_delete_threads()
@@ -33,7 +37,7 @@ class DeleteThreadsTest extends TestCase
         $this->delete($thread->path())->assertRedirect('/login');
 
         $this->signIn();
-        $this->delete($thread->path())->assertRedirect('/login');
+        $this->delete($thread->path())->assertStatus(403);
     }
 
 }
