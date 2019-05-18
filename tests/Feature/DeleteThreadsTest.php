@@ -11,11 +11,11 @@ class DeleteThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_a_thread_can_be_deleted()
+    public function test_authorized_users_can_delete_thread()
     {
         $this->withoutExceptionHandling()->signIn();
 
-        $thread = create('App\Thread');
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
         $response = $this->json('DELETE', $thread->path());
@@ -26,13 +26,14 @@ class DeleteThreadsTest extends TestCase
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
 
-    public function test_a_guest_cannot_delete_threads()
+    public function test_unauthorized_users_cannot_delete_threads()
     {
         $thread = create('App\Thread');
 
-        $response = $this->json('DELETE', $thread->path());
+        $this->delete($thread->path())->assertRedirect('/login');
 
-        $response->assertStatus(401);
+        $this->signIn();
+        $this->delete($thread->path())->assertRedirect('/login');
     }
 
 }
