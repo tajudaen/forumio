@@ -35,4 +35,18 @@ class RepliesController extends Controller
 
         return back();
     }
+
+    public function show(Reply $reply)
+    {
+        return view('threads.edit-reply',['reply' => $reply]);
+    }
+
+    public function update(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->update(request(['body']));
+
+        return back();
+    }
 }
