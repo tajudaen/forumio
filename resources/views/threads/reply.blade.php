@@ -41,3 +41,4 @@
         </div>
         @endcan
     </div>
+</div>

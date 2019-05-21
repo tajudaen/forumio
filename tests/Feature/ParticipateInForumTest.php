@@ -83,4 +83,6 @@ class ParticipateInForumTest extends TestCase
             ->patch( '/replies/' . $reply->id)
             ->assertStatus(403);
     }
+
+    
 }
