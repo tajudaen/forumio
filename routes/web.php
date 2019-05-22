@@ -33,9 +33,13 @@ Route::get('/threads/{channel}/{thread}/endsubscriptions', 'ThreadSubscriptionsC
 
 // Route::resource('threads', 'ThreadsController');
 Route::post('/threads/{channel}/{thread}/replies', 'RepliesController@store');
-Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::get('/replies/{reply}', 'RepliesController@show');
 Route::patch('/replies/{reply}', 'RepliesController@update');
-Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
-Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 Route::delete('replies/{reply}', 'RepliesController@destroy');
+
+Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
+Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
+
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
+Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
+Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');

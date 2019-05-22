@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\RecordsActivity;
+use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
@@ -29,7 +30,11 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+
+        event(new ThreadReceivedNewReply($reply));
+
+        return $reply;
     }
 
     public function channel()
