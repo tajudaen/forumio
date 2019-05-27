@@ -39,6 +39,16 @@ class ThreadTest extends TestCase
         $this->assertCount(1, $this->thread->replies);
     }
 
+    public function test_a_thread_can_add_a_reply_fail()
+    {
+        $this->thread->addReply([
+            'body' => 'Chipoltle',
+            'user_id' => 1
+        ]);
+
+        $this->assertCount(0, $this->thread->replies);
+    }
+
     public function test_a_thread_belongs_to_a_channel()
     {
         $thread = create('App\Thread');
