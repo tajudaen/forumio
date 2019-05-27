@@ -26,7 +26,6 @@ class ProfilesTest extends TestCase
         $thread = create('App\Thread', ['user_id' => $user->id]);
 
         $this->withoutExceptionHandling()->get('/profiles/' . $user->name)
-            ->assertSee($thread->title)
-            ->assertSee($thread->body);
+            ->assertSee($user->name);
     }
 }
