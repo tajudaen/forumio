@@ -8,6 +8,12 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.3-stretch-node-browsers
+        environment:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+          SESSION_DRIVER: array
+          CACHE_DRIVER: array
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -23,6 +29,9 @@ jobs:
 
       - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
+      - run:
+         name: Migrate Database
+         command: php artisan migrate --force
 
       # Download and cache dependencies
 
@@ -53,9 +62,6 @@ jobs:
           paths:
             - node_modules
             - ~/.yarn
-
-      # prepare the database
-      - run: php artisan migrate --env=testing --database=sqlite --force
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
