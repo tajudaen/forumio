@@ -28,4 +28,9 @@ class Reply extends Model
         return $this->thread->path() . '#reply-' . $this->id;
     }
 
+    public function mentionedUsers()
+    {
+        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
+        return $matches[1];
+    }
 }
